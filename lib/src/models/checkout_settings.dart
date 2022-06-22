@@ -13,6 +13,8 @@ class CheckoutSettings {
     required this.amount,
     required this.headers,
     required this.entityId,
+    required this.urlPaymentStatus,
+    required this.getXAuth,
     this.additionalParams = const {},
   });
 
@@ -27,6 +29,8 @@ class CheckoutSettings {
   Map<String, String> headers;
 
   String entityId;
+  String urlPaymentStatus;
+  String getXAuth;
 
   /// HyperPay allows sending additional params
   /// to help you identify payments on your own DB.
