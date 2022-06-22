@@ -95,7 +95,7 @@ class HyperpayPlugin {
     }
   }
 
-  Future<PaymentStatus> pay(CardInfo card) async {
+  Future<PaymentStatus> pay(CardInfo card, urlStatus) async {
     try {
       final result = await _channel.invokeMethod(
         'start_payment_transaction',
@@ -114,7 +114,7 @@ class HyperpayPlugin {
       }
 
       final status = await checkoutHyperpayApi(
-          _checkoutSettings?.urlPaymentStatus, _checkoutSettings?.getXAuth);
+          urlStatus, _checkoutSettings?.getXAuth);
       // final status = await paymentStatus(
       //   _checkoutID,
       //   headers: _checkoutSettings?.headers,
