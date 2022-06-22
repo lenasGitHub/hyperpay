@@ -54,20 +54,40 @@ class HyperpayPlugin {
 
   /// A call to the endpoint on your server to get a checkout ID.
   Future<String> get getCheckoutID async {
+    int ammount = 10;
+    var url = Uri.parse('https://test.oppwa.com/v1/checkouts');
     try {
       final body = {
-        'entityID': _checkoutSettings?.brand.entityID(config),
-        'amount': _checkoutSettings?.amount.toStringAsFixed(2),
-        ..._checkoutSettings?.additionalParams ?? {},
+        'entityId': '8ac7a4ca68374ef501683a8babbd0717',
+        'amount': ammount.toStringAsFixed(2),
+        'currency': 'JOD',
+        'paymentType': 'DB',
       };
       final Response response = await post(
-        _config.checkoutEndpoint,
-        headers: _checkoutSettings?.headers,
-        body: (_checkoutSettings?.headers['Content-Type'] ?? '') ==
-                'application/json'
-            ? json.encode(body)
-            : body,
+        url,
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded',
+          'Authorization':
+              'Bearer OGFjN2E0Y2E2ODM3NGVmNTAxNjgzYTg5ZDM2NjA3MTN8bUVlM21wRzhYNw=='
+        },
+        body: body,
       );
+
+      // final body = {
+      //   'entityId': '8ac7a4ca68374ef501683a8babbd0717',
+      //   'amount': _checkoutSettings?.amount.toStringAsFixed(2),
+      //   ..._checkoutSettings?.additionalParams ?? {},
+      // };
+      // final Response response = await post(
+      //   _config.checkoutEndpoint,
+      //   headers: _checkoutSettings?.headers,
+      //   body: (_checkoutSettings?.headers['Content-Type'] ?? '') ==
+      //           'application/json'
+      //       ? json.encode(body)
+      //       : body,
+      // );
+
+      print(response.body);
 
       if (response.statusCode != 200) {
         throw HttpException('${response.statusCode}: ${response.body}');
@@ -76,6 +96,7 @@ class HyperpayPlugin {
       final Map _resBody = json.decode(response.body);
 
       if (_resBody['result'] != null && _resBody['result']['code'] != null) {
+        print(_resBody['result']['code']);
         switch (_resBody['result']['code']) {
           case '000.200.100':
             _checkoutID = _resBody['id'];
@@ -167,21 +188,17 @@ class HyperpayPlugin {
   Future<Map<String, dynamic>> paymentStatus(String checkoutID,
       {Map<String, String>? headers}) async {
     try {
-      final body = {
-        'entityID': _checkoutSettings?.brand.entityID(config),
-        'checkoutID': checkoutID,
-      };
-      final Response response = await post(
-        _config.statusEndpoint,
-        headers: headers,
-        body: (_checkoutSettings?.headers['Content-Type'] ?? '') ==
-                'application/json'
-            ? json.encode(body)
-            : body,
-      );
+      var url = Uri.parse(
+          'https://test.oppwa.com/v1/checkouts/$checkoutID/payment?entityId=8ac7a4ca68374ef501683a8babbd0717');
+      print(url);
+      Response response = await get(url, headers: {
+        'Authorization':
+            'Bearer OGFjN2E0Y2E2ODM3NGVmNTAxNjgzYTg5ZDM2NjA3MTN8bUVlM21wRzhYNw=='
+      });
 
       final Map<String, dynamic> _resBody = json.decode(response.body);
       if (_resBody['result'] != null && _resBody['result']['code'] != null) {
+        print("lenaaaaaa 22222 2222 22222");
         log(
           '${_resBody['result']['code']}: ${_resBody['result']['description']}',
           name: "HyperpayPlugin/checkPaymentStatus",
