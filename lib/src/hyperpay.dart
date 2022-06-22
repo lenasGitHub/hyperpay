@@ -143,10 +143,6 @@ class HyperpayPlugin {
       'X-Auth-Token': getXAuth,
     });
 
-    print(url);
-    print(getXAuth);
-
-    print(response.body);
     final data = Success.fromJson(json.decode(response.body));
     if (response.statusCode == 200) {
       return data;
