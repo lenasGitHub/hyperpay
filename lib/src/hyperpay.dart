@@ -137,43 +137,14 @@ class HyperpayPlugin {
     }
   }
 
-  // Future<Map<String, dynamic>> paymentStatus(String checkoutID,
-  //     {Map<String, String>? headers}) async {
-  //   try {
-  //     var url = Uri.parse(
-  //         'https://test.oppwa.com/v1/checkouts/$checkoutID/payment?entityId=8ac7a4ca68374ef501683a8babbd0717');
-  //     print(url);
-  //     Response response = await get(url, headers: {
-  //       'Authorization':
-  //           'Bearer OGFjN2E0Y2E2ODM3NGVmNTAxNjgzYTg5ZDM2NjA3MTN8bUVlM21wRzhYNw=='
-  //     });
-
-  //     final Map<String, dynamic> _resBody = json.decode(response.body);
-  //     if (_resBody['result'] != null && _resBody['result']['code'] != null) {
-  //       print("lenaaaaaa 22222 2222 22222");
-  //       log(
-  //         '${_resBody['result']['code']}: ${_resBody['result']['description']}',
-  //         name: "HyperpayPlugin/checkPaymentStatus",
-  //       );
-
-  //       return _resBody['result'];
-  //     } else {
-  //       throw HyperpayException(
-  //         'The returned result does not contain the key "result" as the first key.',
-  //         'RESPONSE BODY NOT IDENTIFIED',
-  //         'please structure the returned body as {result: {code: CODE, description: DESCRIPTION}, id: CHECKOUT_ID, ...}.',
-  //       );
-  //     }
-  //   } catch (exception) {
-  //     rethrow;
-  //   }
-  // }
-
   Future<Success?> checkoutHyperpayApi(checkoutHyperpay, getXAuth) async {
     var url = Uri.parse(checkoutHyperpay);
     var response = await get(url, headers: {
       'X-Auth-Token': getXAuth,
     });
+
+    print(url);
+    print(getXAuth);
 
     print(response.body);
     final data = Success.fromJson(json.decode(response.body));
@@ -224,3 +195,36 @@ class Result {
         "code": code,
       };
 }
+
+
+ // Future<Map<String, dynamic>> paymentStatus(String checkoutID,
+  //     {Map<String, String>? headers}) async {
+  //   try {
+  //     var url = Uri.parse(
+  //         'https://test.oppwa.com/v1/checkouts/$checkoutID/payment?entityId=8ac7a4ca68374ef501683a8babbd0717');
+  //     print(url);
+  //     Response response = await get(url, headers: {
+  //       'Authorization':
+  //           'Bearer OGFjN2E0Y2E2ODM3NGVmNTAxNjgzYTg5ZDM2NjA3MTN8bUVlM21wRzhYNw=='
+  //     });
+
+  //     final Map<String, dynamic> _resBody = json.decode(response.body);
+  //     if (_resBody['result'] != null && _resBody['result']['code'] != null) {
+  //       print("lenaaaaaa 22222 2222 22222");
+  //       log(
+  //         '${_resBody['result']['code']}: ${_resBody['result']['description']}',
+  //         name: "HyperpayPlugin/checkPaymentStatus",
+  //       );
+
+  //       return _resBody['result'];
+  //     } else {
+  //       throw HyperpayException(
+  //         'The returned result does not contain the key "result" as the first key.',
+  //         'RESPONSE BODY NOT IDENTIFIED',
+  //         'please structure the returned body as {result: {code: CODE, description: DESCRIPTION}, id: CHECKOUT_ID, ...}.',
+  //       );
+  //     }
+  //   } catch (exception) {
+  //     rethrow;
+  //   }
+  // }
