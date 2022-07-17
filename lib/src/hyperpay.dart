@@ -113,13 +113,15 @@ class HyperpayPlugin {
         return PaymentStatus.init;
       }
 
-      final status = await checkoutHyperpayApi(
-          urlStatus, _checkoutSettings?.getXAuth);
+      final status =
+          await checkoutHyperpayApi(urlStatus, _checkoutSettings?.getXAuth);
       // final status = await paymentStatus(
       //   _checkoutID,
       //   headers: _checkoutSettings?.headers,
       // );
       final String code = status!.result.code;
+
+      print(code);
 
       if (code.paymentStatus == PaymentStatus.rejected) {
         throw HyperpayException("Rejected payment.", code, status.toString());
