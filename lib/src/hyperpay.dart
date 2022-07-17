@@ -121,6 +121,7 @@ class HyperpayPlugin {
       // );
       final String code = status!.result.code;
 
+      print("lenaaaaaaaaa");
       print(code);
 
       if (code.paymentStatus == PaymentStatus.rejected) {
