@@ -48,6 +48,9 @@ class HyperpayPlugin {
         body: body,
       );
 
+      print("lemaaaassssss 33333322222");
+      print(response.body);
+
       if (response.statusCode != 200) {
         throw HttpException('${response.statusCode}: ${response.body}');
       }
@@ -97,6 +100,7 @@ class HyperpayPlugin {
 
   Future<PaymentStatus> pay(CardInfo card, urlStatus) async {
     try {
+      print("lemaaaassssss");
       final result = await _channel.invokeMethod(
         'start_payment_transaction',
         {
