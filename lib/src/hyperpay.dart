@@ -99,8 +99,11 @@ class HyperpayPlugin {
   }
 
   Future<PaymentStatus> pay(CardInfo card, urlStatus) async {
+    print("lemaaaassssss");
+    print(card.toMap());
+    print(_checkoutID);
+    print(_checkoutSettings?.brand.asString);
     try {
-      print("lemaaaassssss");
       final result = await _channel.invokeMethod(
         'start_payment_transaction',
         {
