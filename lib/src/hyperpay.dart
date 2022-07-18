@@ -138,10 +138,7 @@ class HyperpayPlugin {
   }
 
   Future<Success?> checkoutHyperpayApi(checkoutHyperpay, getXAuth) async {
-    print("eeeeeeeeeeeee");
     var url = Uri.parse(checkoutHyperpay);
-    print(url);
-    print(getXAuth);
     var response = await get(url, headers: {
       'X-Auth-Token': getXAuth,
     });
