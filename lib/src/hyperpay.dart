@@ -48,9 +48,6 @@ class HyperpayPlugin {
         body: body,
       );
 
-      print("lemaaaassssss 33333322222");
-      print(response.body);
-
       if (response.statusCode != 200) {
         throw HttpException('${response.statusCode}: ${response.body}');
       }
@@ -99,10 +96,6 @@ class HyperpayPlugin {
   }
 
   Future<PaymentStatus> pay(CardInfo card, urlStatus) async {
-    print("lemaaaassssss");
-    print(card.toMap());
-    print(_checkoutID);
-    print(_checkoutSettings?.brand.asString);
     try {
       final result = await _channel.invokeMethod(
         'start_payment_transaction',
@@ -128,9 +121,6 @@ class HyperpayPlugin {
       // );
       final String code = status!.result.code;
 
-      print("lenaaaaaaaaa");
-      print(code);
-
       if (code.paymentStatus == PaymentStatus.rejected) {
         throw HyperpayException("Rejected payment.", code, status.toString());
       } else {
@@ -148,11 +138,15 @@ class HyperpayPlugin {
   }
 
   Future<Success?> checkoutHyperpayApi(checkoutHyperpay, getXAuth) async {
+    print("eeeeeeeeeeeee");
     var url = Uri.parse(checkoutHyperpay);
+    print(url);
+    print(getXAuth);
     var response = await get(url, headers: {
       'X-Auth-Token': getXAuth,
     });
 
+    print(response.body);
     final data = Success.fromJson(json.decode(response.body));
     if (response.statusCode == 200) {
       return data;
