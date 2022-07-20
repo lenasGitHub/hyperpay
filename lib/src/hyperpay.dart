@@ -95,7 +95,7 @@ class HyperpayPlugin {
     }
   }
 
-  Future<PaymentStatus> pay(CardInfo card, urlStatus) async {
+  Future<PaymentSuccess> pay(CardInfo card, urlStatus) async {
     try {
       final result = await _channel.invokeMethod(
         'start_payment_transaction',
@@ -110,7 +110,15 @@ class HyperpayPlugin {
 
       if (result == 'canceled') {
         // Checkout session is still going on.
-        return PaymentStatus.init;
+        return PaymentSuccess(
+            code: PaymentStatus.init,
+            data: Success(
+                result: Result(
+              code: '',
+              message: '',
+              orderId: -1,
+              status: 0,
+            )));
       }
 
       final status =
@@ -129,7 +137,7 @@ class HyperpayPlugin {
         _clearSession();
         _checkoutID = '';
 
-        return code.paymentStatus;
+        return PaymentSuccess(code: code.paymentStatus, data: status);
       }
     } catch (e) {
       log('$e', name: "HyperpayPlugin/pay");
@@ -153,12 +161,22 @@ class HyperpayPlugin {
   }
 }
 
-class Success {
-  Success({
-    required this.result,
+class PaymentSuccess {
+  PaymentSuccess({
+    required this.code,
+    required this.data,
   });
 
-  Result result;
+  PaymentStatus code;
+  Success data;
+}
+
+class Success {
+  Success({
+    this.result,
+  });
+
+  Result? result;
 
   factory Success.fromJson(Map<String, dynamic> json) => Success(
         result: Result.fromJson(json["result"]),
@@ -174,22 +192,25 @@ class Result {
     required this.status,
     required this.message,
     required this.code,
+    required this.orderId,
   });
 
   int status;
   String message;
   String code;
+  int orderId;
 
   factory Result.fromJson(Map<String, dynamic> json) => Result(
-        status: json["status"],
-        message: json["message"],
-        code: json["code"],
-      );
+      status: json["status"],
+      message: json["message"],
+      code: json["code"],
+      orderId: json["order_id"]);
 
   Map<String, dynamic> toJson() => {
         "status": status,
         "message": message,
         "code": code,
+        "order_id": orderId,
       };
 }
 
