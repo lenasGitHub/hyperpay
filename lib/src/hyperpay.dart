@@ -127,7 +127,7 @@ class HyperpayPlugin {
       //   _checkoutID,
       //   headers: _checkoutSettings?.headers,
       // );
-      final String code = status!.result.code;
+      final String code = status!.result!.code;
 
       if (code.paymentStatus == PaymentStatus.rejected) {
         throw HyperpayException("Rejected payment.", code, status.toString());
@@ -183,7 +183,7 @@ class Success {
       );
 
   Map<String, dynamic> toJson() => {
-        "result": result.toJson(),
+        "result": result!.toJson(),
       };
 }
 
