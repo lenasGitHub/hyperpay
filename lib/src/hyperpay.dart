@@ -24,6 +24,7 @@ class HyperpayPlugin {
   }
 
   void initSession({required CheckoutSettings checkoutSetting}) async {
+    print("lenaaaa1");
     _clearSession();
     _checkoutSettings = checkoutSetting;
   }
@@ -35,6 +36,7 @@ class HyperpayPlugin {
   }
 
   Future<String> get getCheckoutID async {
+    print("lenaaaa2");
     try {
       final body = {
         'entityId': _checkoutSettings?.entityId,
@@ -42,17 +44,24 @@ class HyperpayPlugin {
         ..._checkoutSettings?.additionalParams ?? {},
       };
 
+      print(_config.checkoutEndpoint);
+      print(_checkoutSettings?.headers);
+      print(body);
       final Response response = await post(
         _config.checkoutEndpoint,
         headers: _checkoutSettings?.headers,
         body: body,
       );
 
+      print(response.statusCode);
+
       if (response.statusCode != 200) {
         throw HttpException('${response.statusCode}: ${response.body}');
       }
 
       final Map _resBody = json.decode(response.body);
+
+      print(_resBody);
 
       if (_resBody['result'] != null && _resBody['result']['code'] != null) {
         switch (_resBody['result']['code']) {
@@ -96,6 +105,7 @@ class HyperpayPlugin {
   }
 
   Future<PaymentSuccess> pay(CardInfo card, urlStatus) async {
+    print("lenaaaaaa4");
     try {
       final result = await _channel.invokeMethod(
         'start_payment_transaction',
@@ -105,6 +115,8 @@ class HyperpayPlugin {
           'card': card.toMap(),
         },
       );
+
+      print(_checkoutID);
 
       log('$result', name: "HyperpayPlugin/platformResponse");
 
@@ -123,11 +135,15 @@ class HyperpayPlugin {
 
       final status =
           await checkoutHyperpayApi(urlStatus, _checkoutSettings?.getXAuth);
+
+      print(status);
       // final status = await paymentStatus(
       //   _checkoutID,
       //   headers: _checkoutSettings?.headers,
       // );
       final String code = status!.result!.code;
+
+      print(code);
 
       if (code.paymentStatus == PaymentStatus.rejected) {
         throw HyperpayException("Rejected payment.", code, status.toString());
@@ -147,6 +163,8 @@ class HyperpayPlugin {
 
   Future<Success?> checkoutHyperpayApi(checkoutHyperpay, getXAuth) async {
     var url = Uri.parse(checkoutHyperpay);
+
+    print(url);
     var response = await get(url, headers: {
       'X-Auth-Token': getXAuth,
     });
