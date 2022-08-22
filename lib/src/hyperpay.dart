@@ -104,14 +104,6 @@ class HyperpayPlugin {
       print(_checkoutSettings?.brand.asString);
       print(card.toMap());
 
-      print(_channel.invokeMethod(
-        'start_payment_transaction',
-        {
-          'checkoutID': _checkoutID,
-          'brand': _checkoutSettings?.brand.asString,
-          'card': card.toMap(),
-        },
-      ));
       final result = await _channel.invokeMethod(
         'start_payment_transaction',
         {
