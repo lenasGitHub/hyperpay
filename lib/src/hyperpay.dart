@@ -156,6 +156,7 @@ class HyperpayPlugin {
         return PaymentSuccess(code: code.paymentStatus, data: status);
       }
     } catch (e) {
+      print(e);
       log('$e', name: "HyperpayPlugin/pay");
       rethrow;
     }
