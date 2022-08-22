@@ -13,6 +13,7 @@ class HyperpayPlugin {
   HyperpayConfig get config => _config;
 
   static Future<HyperpayPlugin> setup({required HyperpayConfig config}) async {
+    print(config.paymentMode.string);
     await _channel.invokeMethod(
       'setup_service',
       {
@@ -96,7 +97,14 @@ class HyperpayPlugin {
   }
 
   Future<PaymentSuccess> pay(CardInfo card, urlStatus) async {
+    print("lenaaaaa1");
     try {
+      print("lenaaaaa2");
+      print(_checkoutID);
+      print(_checkoutSettings?.brand.asString);
+      print(card.toMap());
+
+      print(_channel);
       final result = await _channel.invokeMethod(
         'start_payment_transaction',
         {
@@ -105,6 +113,10 @@ class HyperpayPlugin {
           'card': card.toMap(),
         },
       );
+
+      print("lenaaaaa3");
+
+      print(result);
 
       log('$result', name: "HyperpayPlugin/platformResponse");
 
