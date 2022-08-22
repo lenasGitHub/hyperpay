@@ -16,8 +16,8 @@ part of hyperpay;
 /// ```
 class HyperpayConfig {
   String? creditcardEntityID;
-  // String? madaEntityID;
+  String? madaEntityID;
   late Uri checkoutEndpoint;
-  // late Uri statusEndpoint;
+  late Uri statusEndpoint;
   PaymentMode paymentMode = PaymentMode.none;
 }

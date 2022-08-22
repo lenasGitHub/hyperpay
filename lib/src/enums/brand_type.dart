@@ -6,6 +6,8 @@ enum BrandType {
 
   mastercard,
 
+  mada,
+
   /// If no brand is chosen, use none to avoid
   /// any unnecessary errors.
   none,
