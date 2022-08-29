@@ -78,8 +78,7 @@ class HyperpayPlugin : FlutterPlugin, MethodCallHandler, ITransactionListener, A
         // Remove any underscores from the application ID for Uri parsing
         // NOTE: It's important to add your application ID as the scheme, followed by ".payments"
         // without any underscores.
-        shopperResultUrl = "com.lena.hyperpay"
-        shopperResultUrl += ".payments"
+         shopperResultUrl = "com.lena.hyperpay.payments"
 
         binding.addOnNewIntentListener {
             if (it.scheme?.equals(shopperResultUrl, ignoreCase = true) == true) {
@@ -214,13 +213,12 @@ class HyperpayPlugin : FlutterPlugin, MethodCallHandler, ITransactionListener, A
                         )
 
                         //Set shopper result URL
-                
                         
+                       
 
                         try {
-                            paymentParams.shopperResultUrl = "com.lena.hyperpay://result"
-                            //paymentParams.setShopperResultUrl("com.lena.hyperpay://result");
-                            Transaction transaction = Transaction(paymentParams)
+                             paymentParams.shopperResultUrl = "$shopperResultUrl://result"
+                            val transaction = Transaction(paymentParams)
                             providerBinder?.submitTransaction(transaction)
                         } catch (e: PaymentException) {
                             result.error(
