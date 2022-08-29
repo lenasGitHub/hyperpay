@@ -78,7 +78,7 @@ class HyperpayPlugin : FlutterPlugin, MethodCallHandler, ITransactionListener, A
         // Remove any underscores from the application ID for Uri parsing
         // NOTE: It's important to add your application ID as the scheme, followed by ".payments"
         // without any underscores.
-         shopperResultUrl = "com.souqfann.app.payments"
+         shopperResultUrl = "com.lena.hyperpay.payments"
 
         binding.addOnNewIntentListener {
             if (it.scheme?.equals(shopperResultUrl, ignoreCase = true) == true) {
@@ -140,7 +140,6 @@ class HyperpayPlugin : FlutterPlugin, MethodCallHandler, ITransactionListener, A
 
             if (paymentMode == "LIVE") {
                 providerBinder!!.initializeProvider(Connect.ProviderMode.LIVE);
-                
             } else {
                 providerBinder!!.initializeProvider(Connect.ProviderMode.TEST);
             }
