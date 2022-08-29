@@ -140,8 +140,7 @@ class HyperpayPlugin : FlutterPlugin, MethodCallHandler, ITransactionListener, A
 
             if (paymentMode == "LIVE") {
                 providerBinder!!.initializeProvider(Connect.ProviderMode.LIVE);
-
-                Toast.makeText(getBaseContext(),"LIVEEEEEEE",Toast.LENGTH_LONG).show();
+                
             } else {
                 providerBinder!!.initializeProvider(Connect.ProviderMode.TEST);
             }
