@@ -1,9 +1,19 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:tools="http://schemas.android.com/tools"
     package="com.lena.hyperpay">
 
     <application>
         <service
             android:name="com.oppwa.mobile.connect.service.ConnectService"
             android:exported="false" />
+
+        <activity
+            android:name="com.oppwa.mobile.connect.checkout.dialog.CheckoutActivity"
+            android:configChanges="orientation"
+            android:exported="false"
+            android:launchMode="singleTop"
+            android:theme="@style/Theme.Checkout.Light"
+            android:windowSoftInputMode="adjustPan"
+            tools:replace="android:windowSoftInputMode"/>
     </application>
 </manifest>
