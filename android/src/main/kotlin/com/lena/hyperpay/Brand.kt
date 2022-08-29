@@ -1,4 +1,4 @@
-package com.nyartech.hyperpay
+package com.lena.hyperpay
 
 enum class Brand(val string: String) {
     VISA("VISA"),

@@ -1,4 +1,4 @@
-package com.nyartech.hyperpay
+package com.lena.hyperpay
 
 import android.app.Activity
 import android.content.*
